@@ -9,7 +9,7 @@ palette_OkabeIto <- c("#E69F00", "#F0E442", "#56B4E9", "#009E73", "#0072B2", "#D
 ```
 
 ```{r}
-#read in USV.csv, can be found in Data folder
+#read in USV data
 USVs <- read.csv("USVs.csv")
 
 #filter so we're only running UMAP on the vehicle/amphetamine session
