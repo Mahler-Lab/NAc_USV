@@ -1,0 +1,32 @@
+
+
+```{r}
+#load in necessary packages and a colorblind-friendly palette for plotting
+library(ggplot2)
+library(tidyr)
+library(umap)
+palette_OkabeIto <- c("#E69F00", "#F0E442", "#56B4E9", "#009E73", "#0072B2", "#D55E00", "#CC79A7", "#999999")
+```
+
+```{r}
+#read in USV.csv, can be found in Data folder
+USVs <- read.csv("USVs.csv")
+
+#filter so we're only running UMAP on the vehicle/amphetamine session
+USVs_AMPH <- USVs %>%  filter(Condition == "Veh_AMPH")
+
+#run using only Call Length, Principal Frequency, Change in Frequency, and Sinuosity 
+df.umap <- umap(USVs_AMPH[c(8, 9, 12, 15)], min_dist = 0.01, n_neighbors = 15)
+df.umap_data <- as.data.frame(df.umap[1])
+
+#plot using Label (call subtype category) to colorcode individual points
+ggplot(df.umap_data, aes(layout.1, layout.2)) + 
+  geom_jitter(width=0, height=0, aes(color = USVs_AMPH$Label)) +   
+  labs(color = "Call type") + theme_classic() +
+  scale_color_manual(values = palette_OkabeIto) +
+  ggtitle("all calls in AMPH session")
+
+#save as a pdf so we can edit in Illustrator
+ggsave("allcalls.pdf")
+```
+
